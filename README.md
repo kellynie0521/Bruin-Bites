@@ -2,10 +2,11 @@
 
 An iOS app for UCLA students to find dining companions on campus.
 
-## Features
+## ✨ Features
 
 ### 1. User Authentication
 - UCLA email verification (@ucla.edu)
+- Beautiful gradient login interface with UCLA colors
 - User registration with:
   - Username
   - Grade (Freshman, Sophomore, Junior, Senior, Graduate)
@@ -13,16 +14,21 @@ An iOS app for UCLA students to find dining companions on campus.
   
 ### 2. Interactive Map View
 - Map centered on UCLA campus
-- Create dining posts by tapping the "+" button
+- **Zoom in/out with pinch gestures**
+- **Pan to explore different areas**
+- Create dining posts by tapping the blue "+" button
 - View all dining posts as pins on the map
 - Tap pins to view post details
 
-### 3. Create Dining Posts
-- Restaurant name and address
-- Time slots:
+### 3. Create Dining Posts with Smart Search
+- **🆕 Restaurant autocomplete** - Start typing and see suggestions
+- **🆕 Automatic address lookup** - Select from restaurant suggestions
+- Manual address entry if needed
+- Enhanced time slots:
   - Breakfast (7AM - 11AM)
   - Lunch (11AM - 3PM)
   - Dinner (5PM - 9PM)
+  - **🆕 Late Night Snack (9PM - 2AM)**
 - Add notes (dietary restrictions, preferences, etc.)
 - Automatic geocoding to place pins on map
 - Restaurant website lookup
@@ -33,6 +39,21 @@ An iOS app for UCLA students to find dining companions on campus.
 - Restaurant website link
 - Connect button to start chatting
 - Real-time messaging with other students
+
+### 5. 🎨 UCLA-Themed Design
+- Beautiful UCLA blue and gold color scheme
+- Gradient backgrounds
+- Modern card-based interfaces
+- Smooth animations and shadows
+- Consistent branding throughout
+
+## 🎨 UCLA Color Palette
+
+- **UCLA Blue**: #5389C3 (Primary actions, icons)
+- **UCLA Dark Blue**: #003B70 (Text, emphasis)
+- **UCLA Gold**: #FFD86C (Accents, highlights)
+- **UCLA Light Blue**: #84BFEF (Backgrounds, gradients)
+- **UCLA Light Gold**: #FFEBAD (Secondary backgrounds)
 
 ## Setup Instructions
 

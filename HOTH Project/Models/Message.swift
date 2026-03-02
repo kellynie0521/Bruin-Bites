@@ -23,25 +23,3 @@ struct Message: Identifiable, Codable {
         case timestamp
     }
 }
-
-struct Conversation: Identifiable, Codable {
-    @DocumentID var id: String?
-    var participants: [String]
-    var participantNames: [String: String]
-    var postId: String
-    var restaurantName: String
-    var lastMessage: String?
-    var lastMessageTime: Date?
-    var createdAt: Date
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case participants
-        case participantNames
-        case postId
-        case restaurantName
-        case lastMessage
-        case lastMessageTime
-        case createdAt
-    }
-}

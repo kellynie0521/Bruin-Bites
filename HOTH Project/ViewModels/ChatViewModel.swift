@@ -7,17 +7,19 @@
 
 import Foundation
 import FirebaseFirestore
-
+internal import Combine
 
 @MainActor
 class ChatViewModel: ObservableObject {
+    var objectWillChange = ObservableObjectPublisher ()
+    
     @Published var messages: [Message] = []
     @Published var conversations: [Conversation] = []
     @Published var errorMessage = ""
     
     private let db = Firestore.firestore()
     private var messagesListener: ListenerRegistration?
-    
+
     func fetchConversations(userId: String) {
         db.collection("conversations")
             .whereField("participants", arrayContains: userId)
@@ -45,21 +47,30 @@ class ChatViewModel: ObservableObject {
         restaurantName: String,
         completion: @escaping (String?) -> Void
     ) {
+        print("🔵 createOrGetConversation called")
+        print("   Current user: \(currentUsername) (\(currentUserId))")
+        print("   Post owner: \(postOwnerUsername) (\(postOwnerId))")
+        print("   Post ID: \(postId)")
+        
         let participants = [currentUserId, postOwnerId].sorted()
         
+        print("🔵 Searching for existing conversation...")
         db.collection("conversations")
             .whereField("participants", isEqualTo: participants)
             .whereField("postId", isEqualTo: postId)
             .getDocuments { snapshot, error in
                 if let error = error {
+                    print("❌ Error searching for conversation: \(error.localizedDescription)")
                     self.errorMessage = error.localizedDescription
                     completion(nil)
                     return
                 }
                 
                 if let existingConversation = snapshot?.documents.first {
+                    print("✅ Found existing conversation: \(existingConversation.documentID)")
                     completion(existingConversation.documentID)
                 } else {
+                    print("🔵 No existing conversation found, creating new one...")
                     let conversation = Conversation(
                         participants: participants,
                         participantNames: [
@@ -70,13 +81,17 @@ class ChatViewModel: ObservableObject {
                         restaurantName: restaurantName,
                         lastMessage: nil,
                         lastMessageTime: nil,
+                        lastMessageSenderId: nil,
+                        hasUnreadMessages: nil,
                         createdAt: Date()
                     )
                     
                     do {
                         let docRef = try self.db.collection("conversations").addDocument(from: conversation)
+                        print("✅ Created new conversation: \(docRef.documentID)")
                         completion(docRef.documentID)
                     } catch {
+                        print("❌ Error creating conversation: \(error.localizedDescription)")
                         self.errorMessage = error.localizedDescription
                         completion(nil)
                     }
@@ -119,15 +134,27 @@ class ChatViewModel: ObservableObject {
                 .collection("messages")
                 .addDocument(from: message)
             
+            // 更新对话的最后消息和未读状态
             db.collection("conversations")
                 .document(conversationId)
                 .updateData([
                     "lastMessage": text,
-                    "lastMessageTime": Date()
+                    "lastMessageTime": Date(),
+                    "lastMessageSenderId": senderId,
+                    "hasUnreadMessages": true  // 标记为有未读消息
                 ])
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+    
+    // 标记对话为已读
+    func markConversationAsRead(conversationId: String) {
+        db.collection("conversations")
+            .document(conversationId)
+            .updateData([
+                "hasUnreadMessages": false
+            ])
     }
     
     deinit {

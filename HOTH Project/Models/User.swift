@@ -14,6 +14,7 @@ struct User: Identifiable, Codable {
     var username: String
     var grade: String
     var gender: String
+    var profileImageUrl: String?
     var createdAt: Date
     
     enum CodingKeys: String, CodingKey {
@@ -22,6 +23,7 @@ struct User: Identifiable, Codable {
         case username
         case grade
         case gender
+        case profileImageUrl
         case createdAt
     }
 }

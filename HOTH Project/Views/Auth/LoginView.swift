@@ -16,46 +16,76 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.6), Color.purple.opacity(0.6)]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.uclaLightBlue,
+                        Color.uclaBlue.opacity(0.8),
+                        Color.uclaLightGold.opacity(0.7),
+                        Color.uclaGold.opacity(0.5)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .edgesIgnoringSafeArea(.all)
                 
-                VStack(spacing: 20) {
-                    Spacer()
-                    
-                    VStack(spacing: 10) {
-                        Image(systemName: "fork.knife.circle.fill")
-                            .resizable()
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(.white)
-                        
-                        Text("UCLA Dining Buddy")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        Text("Find your dining companion")
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.9))
-                    }
-                    
+                VStack(spacing: 30) {
                     Spacer()
                     
                     VStack(spacing: 15) {
-                        TextField("UCLA Email", text: $email)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .autocapitalization(.none)
-                            .keyboardType(.emailAddress)
-                            .padding(.horizontal)
+                        Image(systemName: "person.3.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.uclaGold)
+                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                         
-                        SecureField("Password", text: $password)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
+                        Text("BruinBites")
+                            .font(.roboto(28, weight: .bold))
+                            .foregroundColor(.uclaDarkBlue)
+                        
+                        Text("Find your perfect dining companion")
+                            .font(.roboto(14))
+                            .foregroundColor(.uclaDarkBlue.opacity(0.8))
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.bottom, 20)
+                    
+                    VStack(spacing: 20) {
+                        VStack(spacing: 15) {
+                            HStack {
+                                Image(systemName: "envelope.fill")
+                                    .foregroundColor(.uclaBlue)
+                                    .frame(width: 25)
+                                
+                                TextField("UCLA Email", text: $email)
+                                    .textInputAutocapitalization(.never)
+                                    .keyboardType(.emailAddress)
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+                            
+                            HStack {
+                                Image(systemName: "lock.fill")
+                                    .foregroundColor(.uclaBlue)
+                                    .frame(width: 25)
+                                
+                                SecureField("Password", text: $password)
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+                        }
+                        .padding(.horizontal, 30)
                         
                         if !authViewModel.errorMessage.isEmpty {
                             Text(authViewModel.errorMessage)
                                 .foregroundColor(.red)
                                 .font(.caption)
-                                .padding(.horizontal)
+                                .padding(.horizontal, 30)
+                                .multilineTextAlignment(.center)
                         }
                         
                         Button(action: {
@@ -64,32 +94,45 @@ struct LoginView: View {
                             }
                         }) {
                             Text("Login")
-                                .fontWeight(.semibold)
-                                .foregroundColor(.blue)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white)
-                                .cornerRadius(10)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.uclaBlue, Color.uclaDarkBlue]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(15)
+                                .shadow(color: .uclaBlue.opacity(0.3), radius: 8, x: 0, y: 4)
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 30)
                         
                         Button(action: {
                             showRegistration = true
                         }) {
-                            Text("Don't have an account? Register")
-                                .foregroundColor(.white)
-                                .font(.subheadline)
+                            HStack(spacing: 5) {
+                                Text("Don't have an account?")
+                                    .foregroundColor(.uclaDarkBlue.opacity(0.7))
+                                Text("Register")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.uclaBlue)
+                            }
+                            .font(.subheadline)
                         }
                     }
                     
                     Spacer()
+                    Spacer()
                 }
-                .padding()
             }
             .sheet(isPresented: $showRegistration) {
                 RegistrationView()
                     .environmentObject(authViewModel)
             }
         }
+        .accentColor(.uclaBlue)
     }
 }
