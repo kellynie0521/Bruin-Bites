@@ -5,11 +5,11 @@
 ## User settings
 xcuserdata/
 
-## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+## Compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout
 
-## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+## Compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
 DerivedData/
 *.moved-aside
@@ -37,16 +37,15 @@ playground.xcworkspace
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
-# Packages/
-# Package.pins
-# Package.resolved
-# *.xcodeproj
-#
-# Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
-# hence it is not needed unless you have added a package configuration file to your project
-# .swiftpm
-
-.build/
+Packages/
+Package.pins
+Package.resolved
+*.xcodeproj
+# Comment this out if you want to commit xcodeproj
+# Note: We're keeping Bruin Bites.xcodeproj, so exclude others
+!Bruin\ Bites.xcodeproj
+HOTH\ Project.xcodeproj
+Bruin\ .xcodeproj
 
 # CocoaPods
 #
@@ -89,8 +88,18 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-## Firebase
+# Firebase
+# IMPORTANT: Never commit your Firebase config to public repos!
 GoogleService-Info.plist
 
-## macOS
+# macOS
 .DS_Store
+
+# Backup files
+*.backup
+*.bak
+*~
+
+# Temporary files
+*.tmp
+*.temp

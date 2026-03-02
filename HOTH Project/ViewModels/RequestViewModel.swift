@@ -75,7 +75,9 @@ class RequestViewModel: ObservableObject {
             .addSnapshotListener { snapshot, error in
                 if let error = error {
                     print("❌ Error fetching sent requests: \(error.localizedDescription)")
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     return
                 }
                 
@@ -107,7 +109,9 @@ class RequestViewModel: ObservableObject {
             .addSnapshotListener { snapshot, error in
                 if let error = error {
                     print("❌ Error fetching received requests: \(error.localizedDescription)")
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     return
                 }
                 
@@ -167,7 +171,9 @@ class RequestViewModel: ObservableObject {
                     ]) { error in
                         if let error = error {
                             print("❌ Error updating request: \(error.localizedDescription)")
-                            self.errorMessage = error.localizedDescription
+                            Task { @MainActor in
+                                self.errorMessage = error.localizedDescription
+                            }
                             completion(nil)
                         } else {
                             print("✅ Request accepted successfully")
@@ -187,7 +193,9 @@ class RequestViewModel: ObservableObject {
             ]) { error in
                 if let error = error {
                     print("❌ Error declining request: \(error.localizedDescription)")
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                 } else {
                     print("✅ Request declined successfully")
                 }

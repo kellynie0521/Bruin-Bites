@@ -65,7 +65,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             .addSnapshotListener { snapshot, error in
                 if let error = error {
                     print("❌ Error fetching posts: \(error.localizedDescription)")
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     return
                 }
                 
@@ -106,7 +108,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     ) {
         geocodeAddress(address) { coordinate in
             guard let coordinate = coordinate else {
-                self.errorMessage = "Could not find location"
+                Task { @MainActor in
+                    self.errorMessage = "Could not find location"
+                }
                 completion(false)
                 return
             }
@@ -164,7 +168,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 _ = try self.db.collection("diningPosts").addDocument(from: post)
                 completion(true)
             } catch {
-                self.errorMessage = error.localizedDescription
+                Task { @MainActor in
+                    self.errorMessage = error.localizedDescription
+                }
                 completion(false)
             }
         }

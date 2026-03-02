@@ -26,7 +26,9 @@ class ChatViewModel: ObservableObject {
             .order(by: "lastMessageTime", descending: true)
             .addSnapshotListener { snapshot, error in
                 if let error = error {
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     return
                 }
                 
@@ -61,7 +63,9 @@ class ChatViewModel: ObservableObject {
             .getDocuments { snapshot, error in
                 if let error = error {
                     print("❌ Error searching for conversation: \(error.localizedDescription)")
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     completion(nil)
                     return
                 }
@@ -92,7 +96,9 @@ class ChatViewModel: ObservableObject {
                         completion(docRef.documentID)
                     } catch {
                         print("❌ Error creating conversation: \(error.localizedDescription)")
-                        self.errorMessage = error.localizedDescription
+                        Task { @MainActor in
+                            self.errorMessage = error.localizedDescription
+                        }
                         completion(nil)
                     }
                 }
@@ -108,7 +114,9 @@ class ChatViewModel: ObservableObject {
             .order(by: "timestamp", descending: false)
             .addSnapshotListener { snapshot, error in
                 if let error = error {
-                    self.errorMessage = error.localizedDescription
+                    Task { @MainActor in
+                        self.errorMessage = error.localizedDescription
+                    }
                     return
                 }
                 
@@ -144,7 +152,9 @@ class ChatViewModel: ObservableObject {
                     "hasUnreadMessages": true  // 标记为有未读消息
                 ])
         } catch {
-            errorMessage = error.localizedDescription
+            Task { @MainActor in
+                errorMessage = error.localizedDescription
+            }
         }
     }
     
